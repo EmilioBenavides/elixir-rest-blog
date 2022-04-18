@@ -110,24 +110,12 @@ function savePostListener() {
     })
 }
 
-
 function deletePostListener(){
     console.log("Deleting a post")
     $(".delete-post-button").click(function () {
         const id = $(this).data("id")
-        const currentTitle = $(`#title-${id}`).html();
-        const currentContent = $(`#content-${id}`).text();
-        const currentPost = {
-            title,
-            content,
-        }
-        console.log(currentTitle);
-        console.log(currentContent);
-
         const request = {
-            method: "DELETE",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(currentPost)
+            method: "DELETE"
         }
         fetch(POST_URI + "/" + id, request)
             .then(res => {
@@ -138,5 +126,4 @@ function deletePostListener(){
             createView("/delete")
         })
     })
-
 }
