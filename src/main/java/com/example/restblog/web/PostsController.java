@@ -38,7 +38,7 @@ public class PostsController {
         oldPost.setTitle(updatePost.getTitle());//you want to update all properties
         oldPost.setContent(updatePost.getContent());
         oldPost.setId(id);//the id come from the URL path
-        System.out.println("Ready to update post: " + oldPost); // we use "oldPost variable so it can be updated with the request body
+        System.out.println("Ready to update post: " + oldPost); // we use "oldPost" variable so it can be updated with the request body
     }
 
     @DeleteMapping("{id}")

@@ -7,7 +7,7 @@ import {getHeaders} from "./auth.js";
  * Finds the correct route for a given view, builds a loading view, fetches data and builds the final rendered view.
  * @param URI
  */
-export default function createView(URI) {
+export default function createView(URI) { // You must export this function so that it may be used in another file
 
     let route = router(URI);
 
@@ -22,11 +22,11 @@ export default function createView(URI) {
 
     // change view to loading screen
     render(null, router('/loading'));
-
+// "props" is additional data. this is the "loading screen"
     let request = {
         headers: getHeaders()
     }
-    fetchData(route.state, request).then((props) => {
+    fetchData(route.state, request).then((props) => { // this is how you show the next screen
         // Restore the title so that history entries are not all 'Loading...'
         // I tried using route.uri here instead, but it seems there's an off-by-one bug (https://stackoverflow.com/a/38830794)
         document.title = currentTitle;

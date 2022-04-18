@@ -5,6 +5,8 @@ import Navbar from "./views/partials/Navbar.js";
  * @param props - the data required for view rendering
  * @param route - the object containing information for the given endpoint
  */
+
+// this is how you connect screens with routes
 export default function render(props, route) {
     const app = document.querySelector('#app');
     const title = `REST Blog - ${route.title}`;
