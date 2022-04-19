@@ -17,7 +17,7 @@ export default function Register(props) {
                     <label for="email">Email</label>
                     <input id="email" name="email" type="email">
                     <label for="password">Password</label>
-                    <input id="password" name="password" type="password"/>
+                    <input hidden id="password" name="password" type="password"/>  <!--Applied the hidden attiribute here-->
                     <button id="register-btn" type="button">Register</button>
                 </form>
             </body>
@@ -27,13 +27,13 @@ export default function Register(props) {
 
 export function RegisterEvent(){
     $("#register-btn").click(function(){
-
+// When this button is clicked is allows you to get input userinfo
         let newUser = {
             username: $("#username").val(),
             email: $("#email").val(),
             password: $("#password").val()
         }
-
+// This creates the newUser object for new input
         console.log(newUser);
 
         let request = {
@@ -41,12 +41,12 @@ export function RegisterEvent(){
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(newUser)
         }
-
+// This makes the object "POST" method request parameters (what it is)
         fetch("http://localhost:8080/api/users", request)
             .then(response => {
                 console.log(response.status);
                 CreateView("/");
             })
-
+// This sends the request for users
     })
 }

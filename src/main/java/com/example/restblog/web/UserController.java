@@ -2,8 +2,10 @@ package com.example.restblog.web;
 
 
 import com.example.restblog.data.User;
+import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.annotation.WebListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,12 +38,24 @@ public class UserController {
     @PutMapping("{id}")
     private void updateUser(@PathVariable Long id, @RequestBody User updatePost) {
         updatePost.setId(id);//the id come from the URL path
-        System.out.println("Ready to update post: " + updatePost); // we use "oldPost" variable so it can be updated with the request body
+        System.out.println("Ready to update post: " + updatePost); // we use "updatePost" variable so it can be updated with the request body
     }
 
     @DeleteMapping("{id}")
     private void deleteUser(@PathVariable Long id) {
         System.out.println("Ready to delete post: " + id );
+    }
+
+    @GetMapping("username")
+    private User getByUserName(@RequestParam String username){
+        User user = new User(4L, username, "andy@gmail.com", "123pol", null, User.Role.USER);
+        return user;
+    }
+
+    @GetMapping("email")
+    private User getByEmail(@RequestParam String email){
+        User user = new User(3L, "Andy", email, "123abc", null, User.Role.USER);
+        return user;
     }
 
 }
