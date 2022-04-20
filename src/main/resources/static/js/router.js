@@ -41,9 +41,9 @@ export default function router(URI) {
         '/users': {
             returnView: UserProfile,
             state: {
-                users: "/api/users/username?username=andy conejo",
+                users: "/api/users/1",
             },
-            uri: "/users/1",
+            uri: "/users",
             title: 'userProfile',
             viewEvent: UserEvents
             },

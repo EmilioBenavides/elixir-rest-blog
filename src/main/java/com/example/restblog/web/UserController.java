@@ -54,7 +54,7 @@ public class UserController {
 
     @GetMapping("username")
     private User getByUserName(@RequestParam String username) {
-        User user = new User(4L, username, "andy@gmail.com", "123pol", null, User.Role.USER);
+        User user = new User(1L, username, "andy@gmail.com", "123pol", null, User.Role.USER);
         return user;
     }
 
@@ -64,7 +64,7 @@ public class UserController {
         return user;
     }
 
-    @PutMapping("{id} updatePassword")
+    @PutMapping("{id}/updatePassword")
     private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword) {
         if (!oldPassword.equals(newPassword)) { //make sure old and new password don't match so new pw can take its place
             List<User> users = createUsers();

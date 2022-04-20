@@ -36,9 +36,7 @@ export function PostsEvent() {
     editPostListener();
     savePostListener();
     deletePostListener();
-    // TODO: add edit post listener function
 }
-
 
 function createAddPostListener() {
     console.log("adding add post listener");

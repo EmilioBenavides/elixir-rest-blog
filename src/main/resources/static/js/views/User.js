@@ -4,26 +4,23 @@ import createView from "../createView.js";
 export default function UserProfile(props) {
     console.log(props)
     return `
-    <!DOCTYPE html>
-        <html>
             <head>
                 <meta charset="UTF-8"/>
                 <title>User Login</title>
             </head>
             <body>
-                <h1>User</h1>
+                <h1>User Page</h1>
         
                 <form id="User-form">
                     <label for="username">Username</label>
-                    <input disabled id="username" name="username" type="text"/>
+                    <input disabled id="username" name="username" value="${props.users.username}" type="text"/> 
                     <label for="email">Email</label>
-                    <input disabled id="email" name="email" type="email">
-                    <label for="edit-password">Edit Password</label>
-                    <input id="edit-password" name="password" type="password">
-                    <button id="user-btn" type="button">Edit</button>
+                    <input disabled id="email" name="email" value="${props.users.email}" type="email">
+                    <label for="new-password">New Password</label>
+                    <input id="new-password" name="new-password" value="incorrect password" type="password">
+                    <button id="user-btn" type="button">Edit Password</button>
                  </form>
             </body>
-        </html>
 `;
 }
 
@@ -34,6 +31,7 @@ export function UserEvents() {
         let uriExtra = '/1/updatePassword';
         // const oldPassword = $("#old-password").val()
         const newPassword = $("#new-password").val()
+        const oldPassword = $("#old-password").val()
 
         // 2. assemble the request
         const request = {
@@ -41,7 +39,7 @@ export function UserEvents() {
         }
 
         // 3. do the fetch with the correct URI please (check against Postman)
-        fetch(`${BASE_URI}${uriExtra}?newPassword=${newPassword}`, request)
+        fetch(`${BASE_URI}${uriExtra}?oldPassword=${oldPassword}&newPassword=${newPassword}`, request)
             .then(res => {
                 console.log(`${request.method} SUCCESS: ${res.status}`);
             }).catch(error => {
@@ -51,7 +49,6 @@ export function UserEvents() {
         });
 
     });
-}
 }
 
 
