@@ -2,6 +2,7 @@ package com.example.restblog.web;
 
 
 import com.example.restblog.data.User;
+import com.example.restblog.data.UserRepository;
 import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,11 @@ import java.util.List;
 @RequestMapping(value = "/api/users", headers = "Accept=application/json")
 public class UserController {
 
+    private UserRepository userRepository;
+
+    public UserController(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     List<User> createUsers() {
         ArrayList<User> posts = new ArrayList<>();
@@ -27,30 +33,36 @@ public class UserController {
 
     @GetMapping
     private List<User> getAll() {
-        return createUsers();
+        return userRepository.findAll();
     }
 
     // GET /api/posts/5  <-- fetch the blog with id 5
-//    @GetMapping("{userId}")
-//    public User getById(@PathVariable Long userId) {
-//        User user = new User(userId, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null);
-//        return user;
-//    }
+    @GetMapping("{userId}")
+    public User getById(@PathVariable Long userId) {
+        User users = userRepository.getById(userId);
+        return users;
+    }
 
     @PostMapping
     private void createUser(@RequestBody User newUser) {
+        User userToAdd = new User(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
+        userRepository.save(userToAdd);
         System.out.println("Ready to add post: " + newUser);
     }
 
     @PutMapping("{id}")
-    private void updateUser(@PathVariable Long id, @RequestBody User updatePost) {
-        updatePost.setId(id);//the id come from the URL path
-        System.out.println("Ready to update post: " + updatePost); // we use "updatePost" variable so it can be updated with the request body
+    private void updateUser(@PathVariable Long userId, @RequestBody User newUser) {
+        User userToUpdate = userRepository.getById(userId);//the id come from the URL path
+        userToUpdate.setUsername(newUser.getUsername());
+        userToUpdate.setEmail(newUser.getEmail());
+        userToUpdate.setPassword(newUser.getPassword());
+        System.out.println("Ready to update post: " + newUser); // we use "updatePost" variable so it can be updated with the request body
     }
 
     @DeleteMapping("{id}")
-    private void deleteUser(@PathVariable Long id) {
-        System.out.println("Ready to delete post: " + id);
+    private void deleteUser(@PathVariable Long userId) {
+        User userToDelete = userRepository.getById(userId);
+        System.out.println("Ready to delete post: " + userId);
     }
 
 //    @GetMapping("username")

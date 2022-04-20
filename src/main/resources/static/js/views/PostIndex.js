@@ -23,8 +23,8 @@ export default function PostIndex(props) {
                   <label for="add-post-container"><h5>Title</h5></label>
                   <input id="add-post-title" class="form-control" type="text">
                   <textarea name="userImput"  id="add-post-content" rows="10" cols="50">Please enter content</textarea>
-                  <button mt-4 id="add-post-button" class="btn btn-primary">Add Post</button>
-                  <button mt-4 id="edit-post-button" class="btn btn-primary">Save Post</button>
+                  <button id="add-post-button" class="btn btn-primary">Add Post</button>
+                  <button  id="edit-post-button" class="btn btn-primary">Save Post</button>
             </div>
             </form>     
                 </div>
