@@ -19,9 +19,9 @@ public class UserController {
 
     List<User> createUsers() {
         ArrayList<User> posts = new ArrayList<>();
-        posts.add(new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null));//the "L" is to cast that it is a Long integer
-        posts.add(new User(2L, "Jorge", "jorge@gmail.com", "456def", null, User.Role.ADMIN, null));
-        posts.add(new User(3L, "Betty", "betty@gmail.com", "789web", null, User.Role.USER, null));
+//        posts.add(new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null));//the "L" is to cast that it is a Long integer
+//        posts.add(new User(2L, "Jorge", "jorge@gmail.com", "456def", null, User.Role.ADMIN, null));
+//        posts.add(new User(3L, "Betty", "betty@gmail.com", "789web", null, User.Role.USER, null));
         return posts;
     }
 
@@ -31,11 +31,11 @@ public class UserController {
     }
 
     // GET /api/posts/5  <-- fetch the blog with id 5
-    @GetMapping("{userId}")
-    public User getById(@PathVariable Long userId) {
-        User user = new User(userId, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null);
-        return user;
-    }
+//    @GetMapping("{userId}")
+//    public User getById(@PathVariable Long userId) {
+//        User user = new User(userId, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null);
+//        return user;
+//    }
 
     @PostMapping
     private void createUser(@RequestBody User newUser) {
@@ -53,17 +53,17 @@ public class UserController {
         System.out.println("Ready to delete post: " + id);
     }
 
-    @GetMapping("username")
-    private User getByUserName(@RequestParam String username) {
-        User user = new User(1L, username, "andy@gmail.com", "123pol", null, User.Role.USER, null);
-        return user;
-    }
+//    @GetMapping("username")
+//    private User getByUserName(@RequestParam String username) {
+//        User user = new User(1L, username, "andy@gmail.com", "123pol", null, User.Role.USER, null);
+//        return user;
+//    }
 
-    @GetMapping("email")
-    private User getByEmail(@RequestParam String email) {
-        User user = new User(3L, "Andy", email, "123abc", null, User.Role.USER, null);
-        return user;
-    }
+//    @GetMapping("email")
+//    private User getByEmail(@RequestParam String email) {
+//        User user = new User(3L, "Andy", email, "123abc", null, User.Role.USER, null);
+//        return user;
+//    }
 
     @PutMapping("{id}/updatePassword")
     private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword) {

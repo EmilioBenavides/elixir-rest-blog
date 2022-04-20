@@ -12,5 +12,5 @@ import java.util.Collection;
 public class Category {
     private Long id;
     private String name;
-    private Collection<Post> posts;
+//    private Collection<Post> posts;
 }

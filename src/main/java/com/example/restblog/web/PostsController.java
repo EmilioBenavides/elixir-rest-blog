@@ -1,6 +1,7 @@
 package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
+import com.example.restblog.data.PostsRepository;
 import com.example.restblog.data.User;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,18 +12,26 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/posts", headers = "Accept=application/json")
 public class PostsController {
+
+    private PostsRepository postsRepository;
+
+    public PostsController(PostsRepository postsRepository) {
+        this.postsRepository = postsRepository;
+    }
+
+
     List<Post> createPosts() {
         List<Post> posts = new ArrayList<>();
-        User author = new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null);
-        posts.add(new Post(1L, " Post 11111", "Blah blah blah", author));
-        posts.add(new Post(2L, " Post 222222", "Blah blah blah", author));
-        posts.add(new Post(3L, " Post 33333", "Blah blah blah", author));
+//        User author = new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null);
+//        posts.add(new Post(1L, " Post 11111", "Blah blah blah", author));
+//        posts.add(new Post(2L, " Post 222222", "Blah blah blah", author));
+//        posts.add(new Post(3L, " Post 33333", "Blah blah blah", author));
         return posts;
     }
-    @GetMapping
-    private List<Post> getAll() {
-
-    }
+//    @GetMapping
+//    private List<Post> getAll() {
+//
+//    }
 
    // GET /api/posts/5  <-- fetch the blog with id 5
     @GetMapping("{postId}")
@@ -33,7 +42,8 @@ public class PostsController {
 
     @PostMapping
     private void createPost(@RequestBody Post newPost) {
-        System.out.println("Ready to add post: " + newPost);
+        Post postToAdd = new Post( newPost.getTitle(), newPost.getContent());
+        System.out.println("Post created");
     }
 
     @PutMapping("{id}")
