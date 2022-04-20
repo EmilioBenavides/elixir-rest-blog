@@ -3,6 +3,8 @@ package com.example.restblog.data;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Collection;
+
 @Setter
 @Getter
 @ToString
@@ -18,4 +20,5 @@ public class User {
     private String password;
     private LocalDate createdAt;
     private Role role;
+    Collection<Post> posts;
 }

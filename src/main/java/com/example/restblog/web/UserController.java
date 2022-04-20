@@ -16,11 +16,12 @@ import java.util.List;
 @RequestMapping(value = "/api/users", headers = "Accept=application/json")
 public class UserController {
 
+
     List<User> createUsers() {
         ArrayList<User> posts = new ArrayList<>();
-        posts.add(new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER));//the "L" is to cast that it is a Long integer
-        posts.add(new User(2L, "Jorge", "jorge@gmail.com", "456def", null, User.Role.ADMIN));
-        posts.add(new User(3L, "Betty", "betty@gmail.com", "789web", null, User.Role.USER));
+        posts.add(new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null));//the "L" is to cast that it is a Long integer
+        posts.add(new User(2L, "Jorge", "jorge@gmail.com", "456def", null, User.Role.ADMIN, null));
+        posts.add(new User(3L, "Betty", "betty@gmail.com", "789web", null, User.Role.USER, null));
         return posts;
     }
 
@@ -32,7 +33,7 @@ public class UserController {
     // GET /api/posts/5  <-- fetch the blog with id 5
     @GetMapping("{userId}")
     public User getById(@PathVariable Long userId) {
-        User user = new User(userId, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER);
+        User user = new User(userId, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null);
         return user;
     }
 
@@ -54,18 +55,19 @@ public class UserController {
 
     @GetMapping("username")
     private User getByUserName(@RequestParam String username) {
-        User user = new User(1L, username, "andy@gmail.com", "123pol", null, User.Role.USER);
+        User user = new User(1L, username, "andy@gmail.com", "123pol", null, User.Role.USER, null);
         return user;
     }
 
     @GetMapping("email")
     private User getByEmail(@RequestParam String email) {
-        User user = new User(3L, "Andy", email, "123abc", null, User.Role.USER);
+        User user = new User(3L, "Andy", email, "123abc", null, User.Role.USER, null);
         return user;
     }
 
     @PutMapping("{id}/updatePassword")
     private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword) {
+        System.out.printf("Back end wants to update user password for id %d with old pw %s new pw %s\n", id, oldPassword, newPassword);
         if (!oldPassword.equals(newPassword)) { //make sure old and new password don't match so new pw can take its place
             List<User> users = createUsers();
             for (User user : users) { // loop through users

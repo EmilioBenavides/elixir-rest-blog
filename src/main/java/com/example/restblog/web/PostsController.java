@@ -1,6 +1,7 @@
 package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
+import com.example.restblog.data.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,20 +11,23 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/posts", headers = "Accept=application/json")
 public class PostsController {
-
+    List<Post> createPosts() {
+        List<Post> posts = new ArrayList<>();
+        User author = new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null);
+        posts.add(new Post(1L, " Post 11111", "Blah blah blah", author));
+        posts.add(new Post(2L, " Post 222222", "Blah blah blah", author));
+        posts.add(new Post(3L, " Post 33333", "Blah blah blah", author));
+        return posts;
+    }
     @GetMapping
     private List<Post> getAll() {
-        ArrayList<Post> posts = new ArrayList<>();
-        posts.add(new Post(1L, " Post 11111", "Blah blah blah"));//the "L" is to cast that it is a Long integer
-        posts.add(new Post(2L, " Post 222222", "Blah blah blah"));
-        posts.add(new Post(3L, " Post 33333", "Blah blah blah"));
-    return posts;
+
     }
 
    // GET /api/posts/5  <-- fetch the blog with id 5
     @GetMapping("{postId}")
     public Post getById(@PathVariable Long postId){
-        Post post = new Post(postId, "Post " + postId, "Blah blah blah");
+        Post post = new Post(postId, "Post " + postId, "Test Post");
         return post;
     }
 

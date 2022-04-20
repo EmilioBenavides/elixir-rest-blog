@@ -44,7 +44,7 @@ export default function router(URI) {
                 users: "/api/users/1",
             },
             uri: "/users",
-            title: 'userProfile',
+            title: 'User Profile',
             viewEvent: UserEvents
             },
         '/posts': {

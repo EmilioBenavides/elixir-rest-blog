@@ -1,5 +1,6 @@
 import createView from "../createView.js";
 
+const BASE_URI = 'http://localhost:8081/api/users';
 
 export default function UserProfile(props) {
     console.log(props)
@@ -35,7 +36,7 @@ export function UserEvents() {
 
         // 2. assemble the request
         const request = {
-            method: "PUT"
+            method: "PUT",
         }
 
         // 3. do the fetch with the correct URI please (check against Postman)
