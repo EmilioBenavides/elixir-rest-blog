@@ -1,14 +1,17 @@
 package com.example.restblog.web;
 
 
+import com.example.restblog.data.PostsRepository;
 import com.example.restblog.data.User;
 import com.example.restblog.data.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.annotation.WebListener;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class UserController {
 
     private UserRepository userRepository;
+
 
     public UserController(UserRepository userRepository){
         this.userRepository = userRepository;
@@ -46,6 +50,8 @@ public class UserController {
     @PostMapping
     private void createUser(@RequestBody User newUser) {
         User userToAdd = new User(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
+        userToAdd.setRole(User.Role.USER);
+        userToAdd.setCreatedAt(LocalDate.now());
         userRepository.save(userToAdd);
         System.out.println("Ready to add post: " + newUser);
     }
@@ -56,26 +62,26 @@ public class UserController {
         userToUpdate.setUsername(newUser.getUsername());
         userToUpdate.setEmail(newUser.getEmail());
         userToUpdate.setPassword(newUser.getPassword());
+        userToUpdate.setCreatedAt(newUser.getCreatedAt());
+        userToUpdate.setRole(newUser.getRole());
         System.out.println("Ready to update post: " + newUser); // we use "updatePost" variable so it can be updated with the request body
     }
 
     @DeleteMapping("{id}")
     private void deleteUser(@PathVariable Long userId) {
-        User userToDelete = userRepository.getById(userId);
+        userRepository.deleteById(userId);
         System.out.println("Ready to delete post: " + userId);
     }
 
-//    @GetMapping("username")
-//    private User getByUserName(@RequestParam String username) {
-//        User user = new User(1L, username, "andy@gmail.com", "123pol", null, User.Role.USER, null);
-//        return user;
-//    }
+    @GetMapping("username")
+    private User getByUsername(@RequestParam String username) {
+        return userRepository.getByUsername(username);
+    }
 
-//    @GetMapping("email")
-//    private User getByEmail(@RequestParam String email) {
-//        User user = new User(3L, "Andy", email, "123abc", null, User.Role.USER, null);
-//        return user;
-//    }
+    @GetMapping("email")
+    private User getByEmail(@RequestParam String email) {
+        return userRepository.getByEmail(email);
+    }
 
     @PutMapping("{id}/updatePassword")
     private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword) {

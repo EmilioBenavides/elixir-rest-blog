@@ -1,8 +1,7 @@
 package com.example.restblog.web;
 
-import com.example.restblog.data.Post;
-import com.example.restblog.data.PostsRepository;
-import com.example.restblog.data.User;
+import com.example.restblog.data.*;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -14,20 +13,15 @@ import java.util.List;
 public class PostsController {
 
     private PostsRepository postsRepository;
+    private final UserRepository usersRepository;
+    private CategoriesRepository categoriesRepository;
 
-    public PostsController(PostsRepository postsRepository) {
+    public PostsController(PostsRepository postsRepository, UserRepository userRepository, CategoriesRepository categoriesRepository) {
         this.postsRepository = postsRepository;
+        this.usersRepository = userRepository;
+        this.categoriesRepository = categoriesRepository;
     }
 
-
-    List<Post> createPosts() {
-        List<Post> posts = new ArrayList<>();
-//        User author = new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null);
-//        posts.add(new Post(1L, " Post 11111", "Blah blah blah", author));
-//        posts.add(new Post(2L, " Post 222222", "Blah blah blah", author));
-//        posts.add(new Post(3L, " Post 33333", "Blah blah blah", author));
-        return posts;
-    }
     @GetMapping
     private List<Post> getAll() {
     return postsRepository.findAll();
@@ -36,15 +30,18 @@ public class PostsController {
    // GET /api/posts/5  <-- fetch the blog with id 5
     @GetMapping("{postId}")
     public Post getById(@PathVariable Long postId){
-        Post post = postsRepository.getById(postId);
-        return post;
+        return postsRepository.getById(postId);
     }
 
     @PostMapping
     private void createPost(@RequestBody Post newPost) {
-        Post postToAdd = new Post( newPost.getTitle(), newPost.getContent());
-        postsRepository.save(postToAdd);
-        System.out.println("Post created");
+        newPost.setAuthor(usersRepository.getById(1L));
+        List<Category> categories = new ArrayList<>();
+        categories.add(categoriesRepository.findCategoryByName("food"));
+        categories.add(categoriesRepository.findCategoryByName("music"));
+        newPost.setCategories(categories);
+        postsRepository.save(newPost);
+        System.out.println("new Post Created");
     }
 
     @PutMapping("{id}")
@@ -57,7 +54,7 @@ public class PostsController {
 
     @DeleteMapping("{id}")
     private void createDelete(@PathVariable Long postId) {
-        Post postToDelete = postsRepository.getById(postId);
+        postsRepository.deleteById(postId);
         System.out.println("Ready to delete post: " + postId );
     }
 

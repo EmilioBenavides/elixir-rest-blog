@@ -1,6 +1,7 @@
 package com.example.restblog.data;
 
-import jdk.jfr.Category;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.*;
 import net.bytebuddy.implementation.bytecode.assign.TypeCasting;
 
@@ -23,11 +24,53 @@ public class Post {
     private String title;
     @Column(nullable = false)
     private String content;
-//    private User author;
-//    private Collection<Category> categories;
+    @ManyToOne
+    @JsonIgnoreProperties({"posts", "password"}) // you ignore the posts to avoid infinite recursion and password for security reasons
+    private User author;
+
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH},
+            targetEntity = Category.class)
+    @JoinTable(
+            name="post_category",
+            joinColumns = {@JoinColumn(name = "post_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="category_id", nullable = false, updatable = false)},
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.CONSTRAINT)
+    )
+    @JsonIgnoreProperties("posts")
+    private Collection<Category> categories;
+
 
     public Post(String title, String content){
         this.title = title;
         this.content = content;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

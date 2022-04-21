@@ -1,5 +1,6 @@
 package com.example.restblog.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,9 +27,13 @@ public class User {
     private String email;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private LocalDate createdAt;
+    @Column(nullable = false)
     private Role role;
-//    Collection<Post> posts;
+    @OneToMany(mappedBy = "author")
+    @JsonIgnoreProperties({"author"}) // we do this to avoid infinite recursion
+    Collection<Post> posts;
     public User(String username, String email, String password){
         this.username = username;
         this.email = email;
