@@ -1,8 +1,8 @@
 package com.example.restblog.web;
 
 import com.example.restblog.data.*;
-import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import com.example.restblog.services.EmailServices;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +15,13 @@ public class PostsController {
     private PostsRepository postsRepository;
     private final UserRepository usersRepository;
     private CategoriesRepository categoriesRepository;
+    private final EmailServices emailServices;
 
-    public PostsController(PostsRepository postsRepository, UserRepository userRepository, CategoriesRepository categoriesRepository) {
+    public PostsController(PostsRepository postsRepository, UserRepository userRepository, CategoriesRepository categoriesRepository, EmailServices emailServices) {
         this.postsRepository = postsRepository;
         this.usersRepository = userRepository;
         this.categoriesRepository = categoriesRepository;
+        this.emailServices = emailServices;
     }
 
     @GetMapping
@@ -41,6 +43,7 @@ public class PostsController {
         categories.add(categoriesRepository.findCategoryByName("music"));
         newPost.setCategories(categories);
         postsRepository.save(newPost);
+        emailServices.prepareAndSend(newPost,"wes","Work!");
         System.out.println("new Post Created");
     }
 

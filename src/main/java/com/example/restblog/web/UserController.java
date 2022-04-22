@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -42,9 +43,8 @@ public class UserController {
 
     // GET /api/posts/5  <-- fetch the blog with id 5
     @GetMapping("{userId}")
-    public User getById(@PathVariable Long userId) {
-        User users = userRepository.getById(userId);
-        return users;
+    public Optional<User> getById(@PathVariable Long userId) {
+        return userRepository.findById(userId);
     }
 
     @PostMapping

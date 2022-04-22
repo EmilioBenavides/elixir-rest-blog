@@ -12,7 +12,7 @@ export default function PostIndex(props) {
              ${props.posts.map(post =>
         `<h3 id="title-${post.id}">${post.title}</h3>
                 <p id="content-${post.id}">${post.content}</p>
-                <p id="author-${post.id}">Author: ${post.author.username}</p>
+                
                 <button type="button" class="btn btn-primary edit-post-button" data-id="${post.id}"> Edit</button>
                 <button type="button" class="btn btn-primary delete-post-button" data-id="${post.id}"> Delete</button>
                 `).join('')}  
@@ -110,7 +110,7 @@ function savePostListener() {
 }
 
 function deletePostListener(){
-    console.log("Deleting a post")
+
     $(".delete-post-button").click(function () {
         const id = $(this).data("id")
         const request = {
@@ -119,10 +119,11 @@ function deletePostListener(){
         fetch(POST_URI + "/" + id, request)
             .then(res => {
                 console.log(res.status);
+                console.log("Deleting a post");
             }).catch(error => {
             console.log(error);
         }).finally(() => {
-            createView("/delete")
         })
     })
 }
+// <p id="author-${post.id}">Author: ${post.author.username}</p>
