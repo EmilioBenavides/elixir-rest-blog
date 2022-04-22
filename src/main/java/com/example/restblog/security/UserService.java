@@ -1,4 +1,4 @@
-package security;
+package com.example.restblog.security;
 
 import com.example.restblog.data.User;
 import com.example.restblog.data.UserRepository;

@@ -23,10 +23,6 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
 
-    public UserController(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
-
     List<User> createUsers() {
         ArrayList<User> posts = new ArrayList<>();
 //        posts.add(new User(1L, "Andy", "andy@gmail.com", "123abc", null, User.Role.USER, null));//the "L" is to cast that it is a Long integer
