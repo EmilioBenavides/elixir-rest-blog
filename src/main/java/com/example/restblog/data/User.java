@@ -1,9 +1,13 @@
 package com.example.restblog.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -21,19 +25,32 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String username;
-    @Column(nullable = false)
+
+    @Email
+    @NotEmpty
     private String email;
-    @Column(nullable = false)
+//    @Column(nullable = false)
+//    @JsonIgnore
+
+    @ToString.Exclude
     private String password;
+
     @Column(nullable = false)
     private LocalDate createdAt;
-    @Column(nullable = false)
+//    @Column(nullable = false)
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "author")
-    @JsonIgnoreProperties({"author"}) // we do this to avoid infinite recursion
+
+    @JsonIgnoreProperties("author")
+    @OneToMany(mappedBy = "author", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @ToString.Exclude
     Collection<Post> posts;
+
     public User(String username, String email, String password){
         this.username = username;
         this.email = email;
