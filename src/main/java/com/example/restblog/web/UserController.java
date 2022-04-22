@@ -1,14 +1,10 @@
 package com.example.restblog.web;
 
-
-import com.example.restblog.data.PostsRepository;
 import com.example.restblog.data.User;
 import com.example.restblog.data.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.annotation.WebListener;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -16,12 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+@AllArgsConstructor
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/users", headers = "Accept=application/json")
 public class UserController {
 
     private UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     public UserController(UserRepository userRepository){
@@ -53,6 +52,7 @@ public class UserController {
         userToAdd.setRole(User.Role.USER);
         userToAdd.setCreatedAt(LocalDate.now());
         userRepository.save(userToAdd);
+
         System.out.println("Ready to add post: " + newUser);
     }
 
