@@ -17,7 +17,7 @@ export default function Register(props) {
                     <label for="email">Email</label>
                     <input id="email" name="email" type="email">
                     <label for="password">Password</label>
-                    <input hidden id="password" name="password" type="password"/>  <!--Applied the hidden attiribute here-->
+                    <input id="password" name="password" type="password"/>  <!--Applied the hidden attiribute here-->
                     <button id="register-btn" type="button">Register</button>
                 </form>
             </body>

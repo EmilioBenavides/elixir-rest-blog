@@ -47,7 +47,11 @@ public class UserController {
         User userToAdd = new User(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
         userToAdd.setRole(User.Role.USER);
         userToAdd.setCreatedAt(LocalDate.now());
+        String plainTextPassword = newUser.getPassword();
+        String encryptedPassword = passwordEncoder.encode(plainTextPassword);
+        userToAdd.setPassword(encryptedPassword);
         userRepository.save(userToAdd);
+
 
         System.out.println("Ready to add post: " + newUser);
     }
