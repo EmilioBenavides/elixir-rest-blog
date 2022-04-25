@@ -1,4 +1,5 @@
 import createView from "../createView.js";
+import {getHeaders} from "../auth.js";
 
 const POST_URI = "http://localhost:8080/api/posts"
 
@@ -53,7 +54,7 @@ function createAddPostListener() {
 
         const request = {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
+            headers: getHeaders(),
             body: JSON.stringify(newPost)
         }
         fetch(POST_URI, request)
@@ -67,6 +68,7 @@ function createAddPostListener() {
     })
 
 }
+
 
 function editPostListener() {
     $(".edit-post-button").click(function () {
@@ -95,7 +97,7 @@ function savePostListener() {
 
         const request = {
             method: "PUT",
-            headers: {'Content-Type': 'application/json'},
+            headers: getHeaders(),
             body: JSON.stringify(newPost)
         }
         fetch(POST_URI + "/" + id, request)
@@ -114,7 +116,8 @@ function deletePostListener(){
     $(".delete-post-button").click(function () {
         const id = $(this).data("id")
         const request = {
-            method: "DELETE"
+            method: "DELETE",
+            headers: getHeaders()
         }
         fetch(POST_URI + "/" + id, request)
             .then(res => {

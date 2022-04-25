@@ -1,6 +1,7 @@
 package com.example.restblog.web;
 
 import com.example.restblog.data.*;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.example.restblog.services.EmailServices;
 
@@ -36,8 +37,10 @@ public class PostsController {
     }
 
     @PostMapping
-    private void createPost(@RequestBody Post newPost) {
-        newPost.setAuthor(usersRepository.getById(1L));
+    private void createPost(@RequestBody Post newPost, OAuth2Authentication auth) {
+//        newPost.setAuthor(usersRepository.getById(1L));
+        String email = auth.getName();
+        User author = usersRepository.findByEmail(email);
         List<Category> categories = new ArrayList<>();
         categories.add(categoriesRepository.findCategoryByName("food"));
         categories.add(categoriesRepository.findCategoryByName("music"));

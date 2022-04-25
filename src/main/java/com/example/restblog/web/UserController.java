@@ -4,6 +4,7 @@ import com.example.restblog.data.User;
 import com.example.restblog.data.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -40,6 +41,13 @@ public class UserController {
     @GetMapping("{userId}")
     public Optional<User> getById(@PathVariable Long userId) {
         return userRepository.findById(userId);
+    }
+
+    // this returns a user object for the logged in user
+    @GetMapping("me")
+    private User getMyInfo(OAuth2Authentication auth){
+        String email = auth.getName();
+        return userRepository.findByEmail(email);
     }
 
     @PostMapping
