@@ -41,6 +41,7 @@ public class PostsController {
 //        newPost.setAuthor(usersRepository.getById(1L));
         String email = auth.getName();
         User author = usersRepository.findByEmail(email);
+        newPost.setAuthor(author);
         List<Category> categories = new ArrayList<>();
         categories.add(categoriesRepository.findCategoryByName("food"));
         categories.add(categoriesRepository.findCategoryByName("music"));
@@ -50,15 +51,16 @@ public class PostsController {
         System.out.println("new Post Created");
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{postId}")
     private void createUpdate(@PathVariable Long postId, @RequestBody Post newPost) {
         Post postToUpdate = postsRepository.getById(postId);
         postToUpdate.setContent(newPost.getContent());
         postToUpdate.setTitle(newPost.getTitle());
+        postsRepository.save(newPost);
         System.out.println("Ready to update post: " + newPost); // we use "oldPost" variable so it can be updated with the request body
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{postId}")
     private void createDelete(@PathVariable Long postId) {
         postsRepository.deleteById(postId);
         System.out.println("Ready to delete post: " + postId );

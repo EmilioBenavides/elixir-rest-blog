@@ -37,7 +37,7 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    // GET /api/posts/5  <-- fetch the blog with id 5
+
     @GetMapping("{userId}")
     public Optional<User> getById(@PathVariable Long userId) {
         return userRepository.findById(userId);
@@ -49,8 +49,8 @@ public class UserController {
         String email = auth.getName();
         return userRepository.findByEmail(email);
     }
-
-    @PostMapping
+    // create user is now at endpoint ?api/users/create
+    @PostMapping("create")
     private void createUser(@RequestBody User newUser) {
         User userToAdd = new User(newUser.getUsername(), newUser.getEmail(), newUser.getPassword());
         userToAdd.setRole(User.Role.USER);

@@ -1,3 +1,5 @@
+import {showNotification} from "../messaging";
+
 export default function Home(props) {
     console.log("The frontend did it. HER FAULT");
     return `
@@ -12,4 +14,9 @@ export default function Home(props) {
             </div>
         </main>
     `;
+}
+
+export function HomeEvents(){
+    //TODO: use an enum for message type
+  showNotification("hello there", "Its going to be a great day!")
 }

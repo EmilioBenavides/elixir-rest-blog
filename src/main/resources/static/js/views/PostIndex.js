@@ -126,6 +126,7 @@ function deletePostListener(){
             }).catch(error => {
             console.log(error);
         }).finally(() => {
+            createView("/posts")
         })
     })
 }

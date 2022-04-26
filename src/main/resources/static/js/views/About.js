@@ -10,3 +10,7 @@ export default function About(props) {
         </main>
     `;
 }
+
+export function AboutEvents(){
+
+}
