@@ -1,5 +1,5 @@
 import Navbar from "./views/partials/Navbar.js";
-import {getNotificationElement} from "./messaging";
+import {getNotificationElement} from "./messaging.js";
 
 /**
  * Pushes the current URI to the URL bar and sets the HTML of the app div.

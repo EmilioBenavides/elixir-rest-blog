@@ -1,5 +1,6 @@
 import fetchData from "./fetchData.js";
 import createView from "./createView.js";
+import {showNotification} from "./messaging.js";
 
 /**
  * Adds a login event to allow the user to initially obtain a new OAuth2.0 token
@@ -31,8 +32,14 @@ export default function addLoginEvent() {
                 route: `/oauth/token`
             },
             request).then((data) => {
+            if (data.route.error) { // we use this to see if a unauthorized user tried to log in
+                showNotification("Failed to log in: " + data.route.error, "warning");
+                return;
+            }
             setTokens(data);
             createView("/");
+        }) .catch((error) => {
+            //this does not get called on a 401
         });
     });
 }
@@ -69,3 +76,15 @@ function setTokens(responseData) {
 export function isLoggedIn() {
     return !!localStorage.getItem('access_token');
 }
+
+export function getUserRole() {
+    const accessToken = localStorage.getItem("access_token");
+    if(!accessToken) {
+        return false;
+    }
+        const parts = accessToken.split('.');
+        const payload = parts[1];
+        const decodedPayload = atob(payload);
+        const payLoadObject = JSON.parse(decodedPayload);
+        return payLoadObject.authorites[0];
+    }

@@ -9,9 +9,9 @@ export default function Navbar(props) {
             <a href="/" data-link>Home</a>`;
 
     // only logged in can see posts
-    if (loggedIn) {
+
         html = html + `<a href="/posts" data-link>Posts</a>`;
-    }
+
 
     // everyone can see about
     html = html + `<a href="/about" data-link>About</a>`;
