@@ -76,6 +76,23 @@ function setTokens(responseData) {
 export function isLoggedIn() {
     return !!localStorage.getItem('access_token');
 }
+// returns user_name and authority from the access token
+export function getUser() {
+    const accessToken = localStorage.getItem("access_token");
+    if(!accessToken) {
+        return false;
+    }
+    const parts = accessToken.split('.');
+    const payload = parts[1];
+    const decodedPayload = atob(payload);
+    const payLoadObject = JSON.parse(decodedPayload);
+    const user = {
+        userName: payLoadObject.user_name,
+        role: payLoadObject.authorites[0]
+}
+return user;
+
+}
 
 export function getUserRole() {
     const accessToken = localStorage.getItem("access_token");

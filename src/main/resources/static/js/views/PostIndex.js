@@ -19,30 +19,80 @@ export default function PostIndex(props) {
                 `).join('')}  
             </div>
                   <div id="add-post-container">
-            <form id="add-post-container"> 
-            <div class="mb-3 mt-4">
-                  <label for="add-post-container"><h5>Title</h5></label>
-                  <input id="add-post-title" class="form-control" type="text">
-                  <textarea name="userImput"  id="add-post-content" rows="10" cols="50">Please enter content</textarea>
-                  <button id="add-post-button" class="btn btn-primary">Add Post</button>
-                  <button  id="edit-post-button" class="btn btn-primary">Save Post</button>
-            </div>
-            </form>     
+                    <form id="add-post-container"> 
+                    <div class="mb-3 mt-4">
+                        <label for="add-post-container"><h5>Title</h5></label>
+                        <input id="add-post-title" class="form-control" type="text">
+                      <div id="add-post-title-error" class="invalid-feedback">
+                         Invalid title
+                      </div>
+                      <textarea name="userImput"  id="add-post-content" rows="10" cols="50">Please enter content</textarea>
+                      <div id="add-post-content-error" class="invalid-feedback">
+                        Invalid content
+                      </div>
+                      <button id="add-post-button" class="btn btn-primary">Add Post</button>
+                      <button  id="edit-post-button" class="btn btn-primary">Save Post</button>
+                     </div>
+                    </form>     
                 </div>
         </main>
     `;
 }
 
+function createAddFormListeners() {
+    $("#add-post-title").keyup((event) => {
+        validatePost();
+    });
+    $("#add-post-content").keyup((event) =>{
+        validatePost();
+    });
+}
+
 export function PostsEvent() {
+    createAddFormListeners();
     createAddPostListener();
     editPostListener();
     savePostListener();
     deletePostListener();
 }
 
+function validatePost() {
+    const title = $("#add-post-title").val();
+    const content = $("#add-post-content").val();
+
+    let isFormOK = true;
+
+    if(title.trim().length === 0) {
+        $("#add-post-title").addClass("border border-danger");
+        $("#add-post-title-error").show();
+
+        isFormOK = false;
+
+    } else {
+        $("#add-post-title").removeClass("border border-danger")
+        $("#add-post-title-error").hide();
+    }
+
+    if(content.trim().length === 0) {
+        $("#add-post-content").addClass("border border-danger");
+        $("#add-post-content-error").show();
+
+        isFormOK = false;
+
+    } else {
+        $("#add-post-content").removeClass("border border-danger")
+        $("#add-post-content-error").hide();
+    }
+    return isFormOK;
+}
+
 function createAddPostListener() {
     console.log("adding add post listener");
     $("#add-post-button").click(function () {
+
+        if(!validatePost()){
+            return;
+        }
         const title = $("#add-post-title").val();
         const content = $("#add-post-content").val();
         const newPost = {

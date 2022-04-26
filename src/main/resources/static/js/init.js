@@ -4,6 +4,8 @@ import createView from './createView.js';// We use imports/exports to get access
 export default function init() {
     loadViewOnPageRequest();
     addListenerToNavLinks();
+
+    removeStaleTokens
 }
 /**
  * When the DOM loads, build the view given the current endpoint.

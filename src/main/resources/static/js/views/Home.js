@@ -1,5 +1,5 @@
 import {showNotification} from "../messaging.js";
-import {getUserRole} from "../auth.js";
+import {getHeaders, getUser, getUserRole} from "../auth.js";
 
 export default function Home(props) {
     console.log("The frontend did it. HER FAULT");
@@ -19,6 +19,10 @@ export default function Home(props) {
 
 export function HomeEvents(){
     //TODO: use an enum for message type
-   const authority = getUserRole();
-  showNotification( authority, "info")
+   const user = getUser();
+   if(!user) {
+       showNotification("Welcome visitor", "info");
+   } else {
+       showNotification("Welcome, " + user.userName, "info")
+   }
 }
