@@ -88,7 +88,7 @@ export function getUser() {
     const payLoadObject = JSON.parse(decodedPayload);
     const user = {
         userName: payLoadObject.user_name,
-        role: payLoadObject.authorites[0]
+        role: payLoadObject.authorities[0]
 }
 return user;
 
@@ -103,5 +103,5 @@ export function getUserRole() {
         const payload = parts[1];
         const decodedPayload = atob(payload);
         const payLoadObject = JSON.parse(decodedPayload);
-        return payLoadObject.authorites[0];
+        return payLoadObject.authorities[0];
     }

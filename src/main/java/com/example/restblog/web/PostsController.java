@@ -1,5 +1,4 @@
 package com.example.restblog.web;
-
 import com.example.restblog.data.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -8,7 +7,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.example.restblog.services.EmailServices;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,9 +15,9 @@ import java.util.Set;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "/api/posts", headers = "Accept=application/json")
-public class PostsController {
 
-    private  final PostsRepository postsRepository;
+public class PostsController {
+    private final PostsRepository postsRepository;
     private final UserRepository usersRepository;
     private final CategoriesRepository categoriesRepository;
     private final EmailServices emailServices;
@@ -46,7 +44,6 @@ public class PostsController {
     @PostMapping
     @PreAuthorize("!hasAuthority('USER') || !hasAuthority('ADMIN')")
     public void createPost(@RequestBody Post newPost, OAuth2Authentication auth) {
-//        newPost.setAuthor(usersRepository.getById(1L));
         String email = auth.getName();
         User author = usersRepository.findByEmail(email);
         newPost.setAuthor(author);
@@ -59,19 +56,20 @@ public class PostsController {
         System.out.println("new Post Created");
     }
 
-    @PutMapping("{postId}")
-    private void createUpdate(@PathVariable Long postId, @RequestBody Post newPost) {
+    @PutMapping()
+    @PreAuthorize("!hasAuthority('USER') || !hasAuthority('ADMIN')")
+    public void createUpdate( @RequestBody Post newPost) {
         System.out.println("Ready to update post: " + newPost);
-        Post postToUpdate = postsRepository.getById(postId);
+        Post postToUpdate = postsRepository.getById(newPost.getId());
         postToUpdate.setContent(newPost.getContent());
         postToUpdate.setTitle(newPost.getTitle());
-        BeanUtils.copyProperties(newPost,postToUpdate);
-        getNullPropertyNames(newPost);
-        postsRepository.save(newPost);
+//        BeanUtils.copyProperties(newPost,postToUpdate);
+//        getNullPropertyNames(newPost);
+        postsRepository.save(postToUpdate);
     }
 
     @DeleteMapping("{postId}")
-    private void createDelete(@PathVariable Long postId) {
+    public void createDelete(@PathVariable Long postId) {
         postsRepository.deleteById(postId);
         System.out.println("Ready to delete post: " + postId );
     }

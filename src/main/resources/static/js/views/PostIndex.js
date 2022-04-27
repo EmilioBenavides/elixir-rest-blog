@@ -4,6 +4,7 @@ import {getHeaders} from "../auth.js";
 const POST_URI = "http://localhost:8080/api/posts"
 
 export default function PostIndex(props) {
+    console.log(props);
     return `
         <header xmlns="http://www.w3.org/1999/html">
             <h1>Posts Page</h1>
@@ -13,7 +14,7 @@ export default function PostIndex(props) {
              ${props.posts.map(post =>
         `<h3 id="title-${post.id}">${post.title}</h3>
                 <p id="content-${post.id}">${post.content}</p>
-                
+                <p id="author-${post.id}">Author: ${post.author.username}</p>
                 <button type="button" class="btn btn-primary edit-post-button" data-id="${post.id}"> Edit</button>
                 <button type="button" class="btn btn-primary delete-post-button" data-id="${post.id}"> Delete</button>
                 `).join('')}  
@@ -31,13 +32,17 @@ export default function PostIndex(props) {
                         Invalid content
                       </div>
                       <button id="add-post-button" class="btn btn-primary">Add Post</button>
-                      <button  id="edit-post-button" class="btn btn-primary">Save Post</button>
+                      <button  id="save-post-button" class="btn btn-primary save-post-button">Save Post</button>
                      </div>
                     </form>     
                 </div>
         </main>
     `;
 }
+
+let editId = 0;
+let editAuthor = null;
+
 
 function createAddFormListeners() {
     $("#add-post-title").keyup((event) => {
@@ -119,10 +124,13 @@ function createAddPostListener() {
 
 }
 
-
 function editPostListener() {
     $(".edit-post-button").click(function () {
         const id = $(this).data("id")
+        const author = $(this).data("author")
+        editId = id;
+        editAuthor = author;
+
         const oldTitle = $(`#title-${id}`).html();
         const oldContent = $(`#content-${id}`).text();
         console.log(oldTitle);
@@ -134,23 +142,25 @@ function editPostListener() {
 }
 
 function savePostListener() {
-    $("#edit-post-button").click(function () {
-        const id = $(this).data("id")
+    $("#save-post-button").click(function () {
         const title = $("#add-post-title").val();
         const content = $("#add-post-content").val();
         const newPost = {
+            id: editId,
             title,
             content,
+            author: editAuthor
         }
         console.log("ready to save: ");
         console.log("savePost");
-
+        console.log(newPost);
         const request = {
             method: "PUT",
             headers: getHeaders(),
             body: JSON.stringify(newPost)
         }
-        fetch(POST_URI + "/" + id, request)
+        console.log(editId);
+        fetch(POST_URI, request)
             .then(res => {
                 console.log(res.status);
             }).catch(error => {

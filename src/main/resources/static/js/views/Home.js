@@ -19,6 +19,7 @@ export default function Home(props) {
 
 export function HomeEvents(){
     //TODO: use an enum for message type
+
    const user = getUser();
    if(!user) {
        showNotification("Welcome visitor", "info");
