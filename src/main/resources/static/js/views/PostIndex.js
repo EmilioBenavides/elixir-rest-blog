@@ -31,8 +31,10 @@ export default function PostIndex(props) {
                       <div id="add-post-content-error" class="invalid-feedback">
                         Invalid content
                       </div>
-                      <button id="add-post-button" class="btn btn-primary">Add Post</button>
-                      <button  id="save-post-button" class="btn btn-primary save-post-button">Save Post</button>
+                      
+        <button id="save-post-button" class="btn btn-primary save-post-button">Update Post</button>
+        <button id="add-post-button" class="btn btn-primary">Add Post</button>
+                      
                      </div>
                     </form>     
                 </div>
@@ -191,3 +193,4 @@ function deletePostListener(){
     })
 }
 // <p id="author-${post.id}">Author: ${post.author.username}</p>
+// <button id="save-post-button" className="btn btn-primary save-post-button">Update Post</button>
